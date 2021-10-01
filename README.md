@@ -498,11 +498,7 @@ Known issues:
      - Bug in versions 4.0 and 4.1 would incorrect list the address module for a parent REV Robotics device as "1".
      - If the parent module had a higher address value than the daisy-chained module, then this bug would prevent the Robot Controller from communicating with the downstream Expansion Hub.
  * Added requirement for ACCESS_COARSE_LOCATION to allow a Driver Station running Android Oreo to scan for Wi-Fi Direct devices.
- * Added google() repo to build.gradle because aapt2 must be downloaded from the google() repository beginning with version 3.2 of the Android Gradle Plugin.
-     - Important Note: Android Studio users will need to be connected to the Internet the first time build the ftc_app project.
-     - Internet connectivity is required for the first build so the appropriate files can be downloaded from the Google repository.
-     - Users should not need to be connected to the Internet for subsequent builds.
-     - This should also fix buid issue where Android Studio would complain that it "Could not find com.android.tools.lint:lint-gradle:26.1.4" (or similar).
+ * Added google() repo to build.gradle where Android Studio would complain that it "Could not find com.android.tools.lint:lint-gradle:26.1.4" (or similar).
  * Added support for REV Spark Mini motor controller as part of the configuration menu for a servo/PWM port on the REV Expansion Hub.
  * Provide examples for playing audio files in an Op Mode.
  * Block Development Tool Changes
@@ -578,7 +574,6 @@ Changes include:
     - Support for REV Robotics 2m Distance Sensor.
     - Added support for a REV Touch Sensor (no longer have to configure as a generic digital device).
     - Added blocks for DcMotorEx methods.
-        + These are enhanced methods that you can use when supported by the motor controller hardware.
 	+ The REV Robotics Expansion Hub supports these enhanced methods.
 	+ Enhanced methods include methods to get/set motor velocity (in encoder pulses per second), get/set PIDF coefficients, etc..
 
