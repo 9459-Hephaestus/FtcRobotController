@@ -16,10 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous(name="myAuto", group="chad")
 public class myAuto extends LinearOpMode {
     //
-    DcMotor frontleft;
-    DcMotor frontright;
-    DcMotor backleft;
-    DcMotor backright;
+    DcMotor leftDrive;
+    DcMotor rightDrive;
     //Calculate encoder conversion
     Double width = 16.0; //inches
     Integer cpr = 28; //counts per rotation
@@ -40,12 +38,10 @@ public class myAuto extends LinearOpMode {
         //
         initGyro();
         //
-        frontleft = hardwareMap.dcMotor.get("frontleft");
-        frontright = hardwareMap.dcMotor.get("frontright");
-        backleft = hardwareMap.dcMotor.get("backleft");
-        backright = hardwareMap.dcMotor.get("backright");
-        frontright.setDirection(DcMotorSimple.Direction.REVERSE);//If your robot goes backward, switch this from right to left
-        backright.setDirection(DcMotorSimple.Direction.REVERSE);//If your robot goes backward, switch this from right to left
+        leftDrive = hardwareMap.dcMotor.get("left_motor");
+        rightDrive = hardwareMap.dcMotor.get("right_motor");
+        rightDrive.setDirection(DcMotorSimple.Direction.REVERSE);//If your robot goes backward, switch this from right to left
+
         //
         waitForStartify();
         //
@@ -58,64 +54,44 @@ public class myAuto extends LinearOpMode {
     To drive backward, simply make the inches input negative.
      */
     public void moveToPosition(double inches, double speed){
-        frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //
         if (inches < 5) {
             int move = (int) (Math.round(inches * conversion));
             //
-            frontleft.setTargetPosition(frontleft.getCurrentPosition() + move);
-            frontright.setTargetPosition(frontright.getCurrentPosition() + move);
-            backleft.setTargetPosition(backleft.getCurrentPosition() + move);
-            backright.setTargetPosition(backright.getCurrentPosition() + move);
+            leftDrive.setTargetPosition(leftDrive.getCurrentPosition() + move);
+            rightDrive.setTargetPosition(rightDrive.getCurrentPosition() + move);
             //
-            frontleft.setPower(speed);
-            frontright.setPower(speed);
-            backleft.setPower(speed);
-            backright.setPower(speed);
+            leftDrive.setPower(speed);
+            rightDrive.setPower(speed);
             //
-            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {}
-            frontleft.setPower(0);
-            frontright.setPower(0);
-            backleft.setPower(0);
-            backright.setPower(0);
+            while (leftDrive.isBusy() && rightDrive.isBusy()) {}
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);
         }else{
             int move1 = (int)(Math.round((inches - 5) * conversion));
-            int movefl2 = frontleft.getCurrentPosition() + (int)(Math.round(inches * conversion));
-            int movefr2 = frontright.getCurrentPosition() + (int)(Math.round(inches * conversion));
-            int movebl2 = backleft.getCurrentPosition() + (int)(Math.round(inches * conversion));
-            int movebr2 = backright.getCurrentPosition() + (int)(Math.round(inches * conversion));
+            int movefl2 = leftDrive.getCurrentPosition() + (int)(Math.round(inches * conversion));
+            int movefr2 = rightDrive.getCurrentPosition() + (int)(Math.round(inches * conversion));
             //
-            frontleft.setTargetPosition(frontleft.getCurrentPosition() + move1);
-            frontright.setTargetPosition(frontright.getCurrentPosition() + move1);
-            backleft.setTargetPosition(backleft.getCurrentPosition() + move1);
-            backright.setTargetPosition(backright.getCurrentPosition() + move1);
+            leftDrive.setTargetPosition(leftDrive.getCurrentPosition() + move1);
+            rightDrive.setTargetPosition(rightDrive.getCurrentPosition() + move1);
             //
-            frontleft.setPower(speed);
-            frontright.setPower(speed);
-            backleft.setPower(speed);
-            backright.setPower(speed);
+            leftDrive.setPower(speed);
+            rightDrive.setPower(speed);
             //
-            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {}
+            while (leftDrive.isBusy() && rightDrive.isBusy()) {}
             //
-            frontleft.setTargetPosition(movefl2);
-            frontright.setTargetPosition(movefr2);
-            backleft.setTargetPosition(movebl2);
-            backright.setTargetPosition(movebr2);
+            leftDrive.setTargetPosition(movefl2);
+            rightDrive.setTargetPosition(movefr2);
             //
-            frontleft.setPower(.1);
-            frontright.setPower(.1);
-            backleft.setPower(.1);
-            backright.setPower(.1);
+            leftDrive.setPower(.1);
+            rightDrive.setPower(.1);
             //
-            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {}
-            frontleft.setPower(0);
-            frontright.setPower(0);
-            backleft.setPower(0);
-            backright.setPower(0);
-        }
+            while (leftDrive.isBusy() && rightDrive.isBusy()) {}
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);
+            }
         return;
     }
     //
@@ -218,18 +194,16 @@ public class myAuto extends LinearOpMode {
         }
         //</editor-fold>
         //
-        frontleft.setPower(0);
-        frontright.setPower(0);
-        backleft.setPower(0);
-        backright.setPower(0);
-    }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        }
     //
     /*
     WARNING: This Movement type is INCOMPATIBLE with your chassis, use is NOT RECOMMENDED
     This is our function for arcing, a special type of movement that allows for turning while moving.
     Use the angle and length to determine where the robot will end up.
      */
-    public void arc(Double angle, Double length, Double speed){
+    /*public void arc(Double angle, Double length, Double speed){
         //\frac{c*sin*(90-b)}{\sin2b}
         Double radius = ((length + arcBias) * Math.sin(Math.toRadians(90-angle)))/(Math.sin(Math.toRadians(2 * angle)));
         telemetry.addData("radius", radius);
@@ -326,16 +300,12 @@ public class myAuto extends LinearOpMode {
     encoder mode and begin turning.
      */
     public void turnWithEncoder(double input){
-        frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //
-        frontleft.setPower(input);
-        frontright.setPower(-input);
-        backleft.setPower(input);
-        backright.setPower(-input);
-    }
+        leftDrive.setPower(input);
+        rightDrive.setPower(-input);
+        }
     //
 }
 
