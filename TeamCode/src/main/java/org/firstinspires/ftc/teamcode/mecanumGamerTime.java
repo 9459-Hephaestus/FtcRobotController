@@ -158,8 +158,11 @@ public class mecanumGamerTime extends LinearOpMode {
             BL.setPower(v3);
             BR.setPower(v4);
 
-            DS.setPower(duckSpeed);
-
+            if (gamepad2.left_bumper){
+                DS.setPower(duckSpeed);
+            } else {
+                DS.setPower(duckSpeed * 0.5);
+            }
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "FR (%.2f), FL (%.2f), BR (%.2f), BL (%.2f), DS (%.2f", FR.getPower(), FL.getPower(), BR.getPower(), BL.getPower(), DS.getPower());
