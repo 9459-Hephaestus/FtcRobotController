@@ -49,7 +49,9 @@ public class mecanumGamerTime extends LinearOpMode {
     private DcMotor BR = null;
     private DcMotor BL = null;
     private DcMotor DS = null;
-    private Servo Kraken = null;
+    private DcMotor AL = null;
+    private DcMotor AS = null;
+    //private Servo Kraken = null;
 
     @Override
     public void runOpMode() {
@@ -64,7 +66,9 @@ public class mecanumGamerTime extends LinearOpMode {
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
         DS = hardwareMap.get(DcMotor.class, "DS");
-        Kraken = hardwareMap.get(Servo.class, "Kraken");
+        AL = hardwareMap.get(DcMotor.class, "AL");
+        //AS = hardwareMap.get(DcMotor.class, "AS");
+        //Kraken = hardwareMap.get(Servo.class, "Kraken");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -79,6 +83,8 @@ public class mecanumGamerTime extends LinearOpMode {
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         DS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        AS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        AL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -160,17 +166,26 @@ public class mecanumGamerTime extends LinearOpMode {
             FR.setPower(v2);
             BL.setPower(v3);
             BR.setPower(v4);
-            if(gamepad2.left_trigger > .3){
-               Kraken.setPosition(0);
-            } else if(gamepad2.right_trigger >.3){
-                Kraken.setPosition(1);
-            }
+//            if(gamepad2.left_trigger > .3){
+//               Kraken.setPosition(0);
+//            } else if(gamepad2.right_trigger >.3){
+//                Kraken.setPosition(1);
+//            }
 
             if (gamepad2.left_bumper){
                 DS.setPower(duckSpeed);
             } else {
                 DS.setPower(duckSpeed * 0.5);
             }
+
+            if(gamepad2.left_trigger > .3){
+                AL.setPower(.1);
+            } else if(gamepad2.right_trigger >.3){
+                AL.setPower(-.1);
+            } else {
+                AL.setPower(0);
+            }
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "FR (%.2f), FL (%.2f), BR (%.2f), BL (%.2f), DS (%.2f", FR.getPower(), FL.getPower(), BR.getPower(), BL.getPower(), DS.getPower());
