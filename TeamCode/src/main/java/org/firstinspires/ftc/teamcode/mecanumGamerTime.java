@@ -67,12 +67,12 @@ public class mecanumGamerTime extends LinearOpMode {
         BL = hardwareMap.get(DcMotor.class, "BL");
         DS = hardwareMap.get(DcMotor.class, "DS");
         AL = hardwareMap.get(DcMotor.class, "AL");
-        //AS = hardwareMap.get(DcMotor.class, "AS");
+        AS = hardwareMap.get(DcMotor.class, "AS");
         //Kraken = hardwareMap.get(Servo.class, "Kraken");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        FR.setDirection(DcMotor.Direction.FORWARD);
+        FR.setDirection(DcMotor.Direction.REVERSE);
         FL.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.FORWARD);
         BL.setDirection(DcMotor.Direction.REVERSE);
@@ -142,16 +142,16 @@ public class mecanumGamerTime extends LinearOpMode {
                 moveSpeed = 1;
             }
 
-//            double FL_Dir = Range.clip((speed - strafe - rotate), -1, 1) * moveSpeed;
-//            double FR_Dir = Range.clip((speed + strafe + rotate), -1, 1) * moveSpeed;
-//            double BL_Dir = Range.clip((speed + strafe - rotate), -1, 1) * moveSpeed;
-//            double BR_Dir = Range.clip((speed - strafe + rotate), -1, 1) * moveSpeed;
+           double FL_Dir = Range.clip((speed - strafe - rotate), -1, 1) * moveSpeed;
+           double FR_Dir = Range.clip((speed + strafe + rotate), -1, 1) * moveSpeed;
+           double BL_Dir = Range.clip((speed + strafe - rotate), -1, 1) * moveSpeed;
+          double BR_Dir = Range.clip((speed - strafe + rotate), -1, 1) * moveSpeed;
 
 
-            //FL.setPower(FL_Dir);
-//            FR.setPower(FR_Dir);
-//            BL.setPower(BL_Dir);
-//            BR.setPower(BR_Dir);
+            FL.setPower(FL_Dir);
+           FR.setPower(FR_Dir);
+           BL.setPower(BL_Dir);
+           BR.setPower(BR_Dir);
 
 
             double r = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
@@ -178,12 +178,26 @@ public class mecanumGamerTime extends LinearOpMode {
                 DS.setPower(duckSpeed * 0.5);
             }
 
+            if (gamepad2.dpad_right){
+                AL.setPower(.3);
+            }else if (gamepad2.dpad_left) {
+                AL.setPower(-.3);
+            }
+
             if(gamepad2.left_trigger > .3){
-                AL.setPower(.1);
+                AL.setPower(.6);
             } else if(gamepad2.right_trigger >.3){
-                AL.setPower(-.1);
+                AL.setPower(-.6);
             } else {
                 AL.setPower(0);
+            }
+
+            if (gamepad2.right_stick_y > .3){
+                AS.setPower(.1);
+            } else if (gamepad2.right_stick_y > -.3){
+                AS.setPower(-.1);
+            } else {
+                AS.setPower(0);
             }
 
             // Show the elapsed game time and wheel power.
