@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -179,31 +180,33 @@ public class mecanumGamerTime extends LinearOpMode {
             }
 
             if (gamepad2.dpad_right){
-                AL.setPower(.3);
+                AL.setPower(.35);
             }else if (gamepad2.dpad_left) {
-                AL.setPower(-.3);
-            }
-
-            if(gamepad2.left_trigger > .3){
+                AL.setPower(-.35);
+            }if(gamepad2.left_trigger > .3){
                 AL.setPower(.6);
+
+
             } else if(gamepad2.right_trigger >.3){
                 AL.setPower(-.6);
             } else {
-                AL.setPower(0);
+                AL.setPower(-.0
+                );
             }
 
             if (gamepad2.right_stick_y > .3){
-                AS.setPower(.1);
-            } else if (gamepad2.right_stick_y > -.3){
-                AS.setPower(-.1);
-            } else {
-                AS.setPower(0);
+                if(gamepad2.right_bumper) {
+                    AS.setPower(-.3);}
+                else {
+                    AS.setPower(-.3);
+                }
+            } else if (gamepad2.right_stick_y < -.3){
+                if(gamepad2.right_bumper) {
+                    AS.setPower(.4);}
+                else {
+                    AS.setPower(.1);
+                }
             }
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "FR (%.2f), FL (%.2f), BR (%.2f), BL (%.2f), DS (%.2f", FR.getPower(), FL.getPower(), BR.getPower(), BL.getPower(), DS.getPower());
-            telemetry.update();
-        }
-    }
-}
+            else {
+                AS.setPower(0);
+            }}}}

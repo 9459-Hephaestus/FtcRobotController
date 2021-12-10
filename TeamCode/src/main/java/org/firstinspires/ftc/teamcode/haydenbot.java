@@ -88,7 +88,7 @@ public class haydenbot {
     public DcMotor BL = null;
     public DcMotor BR = null;
     public DcMotor DS = null;
-    public Servo Kraken = null;
+//    public Servo Kraken = null;
 
     BNO055IMU imu;
 
@@ -123,7 +123,7 @@ public class haydenbot {
         BL = OpModeReference.hardwareMap.get(DcMotor.class, "BL");
         BR = OpModeReference.hardwareMap.get(DcMotor.class, "BR");
         DS = OpModeReference.hardwareMap.get(DcMotor.class, "DS");
-        Kraken = OpModeReference.hardwareMap.get(Servo.class, "Kraken");
+//        Kraken = OpModeReference.hardwareMap.get(Servo.class, "Kraken");
 
         // motor arrays
         // left

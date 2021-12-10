@@ -19,7 +19,7 @@ public class DSWarehouseBlueAuto extends LinearOpMode{
         double speed1 = 0.6;
         double speed2 = 0.4;
         double speed1ds = 0.3;
-        hayden.Kraken.setPosition(1);
+//        hayden.Kraken.setPosition(1);
 
         //drive to spinner
         hayden.drive(-6, speed1);
