@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -48,6 +50,9 @@ public class mecanumGamerTime extends LinearOpMode {
     private DcMotor BR = null;
     private DcMotor BL = null;
     private DcMotor DS = null;
+    private DcMotor AL = null;
+    private DcMotor AS = null;
+    //private Servo Kraken = null;
 
     @Override
     public void runOpMode() {
@@ -62,13 +67,16 @@ public class mecanumGamerTime extends LinearOpMode {
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
         DS = hardwareMap.get(DcMotor.class, "DS");
+        AL = hardwareMap.get(DcMotor.class, "AL");
+        AS = hardwareMap.get(DcMotor.class, "AS");
+        //Kraken = hardwareMap.get(Servo.class, "Kraken");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        FR.setDirection(DcMotor.Direction.FORWARD);
-        //FL.setDirection(DcMotor.Direction.REVERSE);
+        FR.setDirection(DcMotor.Direction.REVERSE);
+        FL.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.FORWARD);
-        //BL.setDirection(DcMotor.Direction.REVERSE);
+        BL.setDirection(DcMotor.Direction.REVERSE);
         DS.setDirection(DcMotor.Direction.FORWARD);
 
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -76,6 +84,8 @@ public class mecanumGamerTime extends LinearOpMode {
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         DS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        AS.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        AL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -133,16 +143,16 @@ public class mecanumGamerTime extends LinearOpMode {
                 moveSpeed = 1;
             }
 
-//            double FL_Dir = Range.clip((speed - strafe - rotate), -1, 1) * moveSpeed;
-//            double FR_Dir = Range.clip((speed + strafe + rotate), -1, 1) * moveSpeed;
-//            double BL_Dir = Range.clip((speed + strafe - rotate), -1, 1) * moveSpeed;
-//            double BR_Dir = Range.clip((speed - strafe + rotate), -1, 1) * moveSpeed;
+            double FL_Dir = Range.clip((speed - strafe - rotate), -1, 1) * moveSpeed;
+            double FR_Dir = Range.clip((speed + strafe + rotate), -1, 1) * moveSpeed;
+            double BL_Dir = Range.clip((speed + strafe - rotate), -1, 1) * moveSpeed;
+            double BR_Dir = Range.clip((speed - strafe + rotate), -1, 1) * moveSpeed;
 
 
-            //FL.setPower(FL_Dir);
-//            FR.setPower(FR_Dir);
-//            BL.setPower(BL_Dir);
-//            BR.setPower(BR_Dir);
+            FL.setPower(FL_Dir);
+            FR.setPower(FR_Dir);
+            BL.setPower(BL_Dir);
+            BR.setPower(BR_Dir);
 
 
             double r = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
@@ -157,16 +167,46 @@ public class mecanumGamerTime extends LinearOpMode {
             FR.setPower(v2);
             BL.setPower(v3);
             BR.setPower(v4);
+//            if(gamepad2.left_trigger > .3){
+//               Kraken.setPosition(0);
+//            } else if(gamepad2.right_trigger >.3){
+//                Kraken.setPosition(1);
+//            }
 
             if (gamepad2.left_bumper){
                 DS.setPower(duckSpeed);
             } else {
                 DS.setPower(duckSpeed * 0.5);
             }
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "FR (%.2f), FL (%.2f), BR (%.2f), BL (%.2f), DS (%.2f", FR.getPower(), FL.getPower(), BR.getPower(), BL.getPower(), DS.getPower());
-            telemetry.update();
-        }
-    }
-}
+
+            if (gamepad2.dpad_right){
+                AL.setPower(.35);
+            }else if (gamepad2.dpad_left) {
+                AL.setPower(-.35);
+            }if(gamepad2.left_trigger > .3){
+                AL.setPower(.6);
+
+
+            } else if(gamepad2.right_trigger >.3){
+                AL.setPower(-.6);
+            } else {
+                AL.setPower(-.0
+                );
+            }
+
+            if (gamepad2.right_stick_y > .3){
+                if(gamepad2.right_bumper) {
+                    AS.setPower(-.6);}
+                else {
+                    AS.setPower(-.3);
+                }
+            } else if (gamepad2.right_stick_y < -.3){
+                if(gamepad2.right_bumper) {
+                    AS.setPower(.6);}
+                else {
+                    AS.setPower(.4);
+                }
+            }
+            else {
+                AS.setPower(0);
+            }}}}
