@@ -179,11 +179,16 @@ public class mecanumGamerTime extends LinearOpMode {
                 DS.setPower(duckSpeed * 0.5);
             }
 
+
             if (gamepad2.dpad_right){
-                AL.setPower(.35);
+                AL.setPower(0);
             }else if (gamepad2.dpad_left) {
                 AL.setPower(-.35);
-            }if(gamepad2.left_trigger > .3){
+            }else {
+                AL.setPower(.35);
+            }
+
+            if(gamepad2.left_trigger > .3){
                 AL.setPower(.6);
 
 
@@ -196,13 +201,13 @@ public class mecanumGamerTime extends LinearOpMode {
 
             if (gamepad2.right_stick_y > .3){
                 if(gamepad2.right_bumper) {
-                    AS.setPower(-.6);}
+                    AS.setPower(-.3);}
                 else {
                     AS.setPower(-.3);
                 }
             } else if (gamepad2.right_stick_y < -.3){
                 if(gamepad2.right_bumper) {
-                    AS.setPower(.6);}
+                    AS.setPower(.4);}
                 else {
                     AS.setPower(.4);
                 }
