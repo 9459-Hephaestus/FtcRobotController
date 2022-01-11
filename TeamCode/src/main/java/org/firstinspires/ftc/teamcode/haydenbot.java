@@ -138,10 +138,15 @@ public class haydenbot {
         AllMotors[2] = BL;
         AllMotors[3] = BR;
 
-        for (DcMotor l : LeftMotors)
+        /*for (DcMotor l : LeftMotors)
             l.setDirection(DcMotorSimple.Direction.REVERSE);
         for (DcMotor r : RightMotors)
-            r.setDirection(DcMotorSimple.Direction.FORWARD);
+            r.setDirection(DcMotorSimple.Direction.FORWARD);*/
+        FR.setDirection(DcMotor.Direction.REVERSE);
+        FL.setDirection(DcMotor.Direction.REVERSE);
+        BR.setDirection(DcMotor.Direction.FORWARD);
+        BL.setDirection(DcMotor.Direction.REVERSE);
+
         for (DcMotor m : AllMotors){
             m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

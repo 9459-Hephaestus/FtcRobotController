@@ -28,6 +28,7 @@ public class DSWarehouseBlueAuto extends LinearOpMode{
         //spin, hold, stop
         hayden.DS.setPower(0.13);
         sleep(19000);
+
         hayden.DS.setPower(0);
         //move to warehouse
         hayden.strafeR(11, speed1);
